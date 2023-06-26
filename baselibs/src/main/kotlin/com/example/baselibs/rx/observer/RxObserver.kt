@@ -14,14 +14,22 @@ abstract class RxObserver<T> : Observer<T> {
         onFinal()
     }
 
-    final override fun onError(e: Throwable) {
-        ExceptionHandle.handle(e) {
-            onRxError(it)
-        }
+    final override fun onError(throwable: Throwable) {
+        ExceptionHandle.handle(
+            throwable,
+            onNetWorkErrorCallback = {
+                onNetWorkError()
+            },
+            onNormalErrorCallback = {
+                onNormalError(it)
+            }
+        )
         onFinal()
     }
 
-    abstract fun onRxError(e: Throwable)
+    abstract fun onNormalError(e: Throwable)
+
+    open fun onNetWorkError() = Unit
 
     final override fun onComplete() = Unit
 

@@ -4,5 +4,5 @@ object HttpConstant {
 
     const val DEFAULT_TIMEOUT: Long = 5
 
-    const val BASE_URL = "http://jsonplaceholder.typicode.com."
+    const val BASE_URL = "http://jsonplaceholder.typicode.com"
 }

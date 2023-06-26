@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import com.example.baselibs.rx.observer.RxObserver
-import com.example.baselibs.rx.scheduler.IoMainScheduler
+import com.example.baselibs.rx.scheduler.applyObservableSchedulers
 import com.example.baselibs.utils.ImageLoader
 import com.example.networking.bean.TestData
 import com.example.networking.http.MainRetrofit
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         MainRetrofit.service.getHomeBanner()
-            .compose(IoMainScheduler())
+            .compose(applyObservableSchedulers())
             .subscribe(object : RxObserver<List<TestData>>() {
                 override fun onSuccess(t: List<TestData>) {
                     Log.i("JACK", "onSuccess: " + t )
@@ -29,8 +28,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onRxError(e: Throwable) {
+                override fun onNormalError(e: Throwable) {
                     Log.i("JACK", "onRxError: " + e )
+                }
+
+                override fun onNetWorkError() {
+                    Log.i("JACK", "onNetWorkError: "  )
                 }
 
             })

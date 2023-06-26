@@ -1,9 +1,7 @@
 package com.example.baselibs.http
 
-import com.example.baselibs.config.AppConfig
 import com.example.baselibs.http.constant.HttpConstant
 import com.example.baselibs.http.constant.HttpConstant.BASE_URL
-import com.example.baselibs.http.interceptor.ErrorHandlingInterceptor
 import com.example.baselibs.http.interceptor.HeaderInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,17 +49,11 @@ abstract class RetrofitFactory<T> {
     open fun attachOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient().newBuilder()
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        if (AppConfig.debug) {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        } else {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
-        }
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         builder.run {
             addInterceptor(httpLoggingInterceptor)
             addInterceptor(HeaderInterceptor())
-            addInterceptor(ErrorHandlingInterceptor())
-            //需要添加一些其他拦截器可以在这里加
             connectTimeout(HttpConstant.DEFAULT_TIMEOUT, TimeUnit.SECONDS) //连接超时15s
             readTimeout(HttpConstant.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(HttpConstant.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
