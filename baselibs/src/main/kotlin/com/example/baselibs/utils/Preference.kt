@@ -7,13 +7,13 @@ import com.example.baselibs.config.AppConfig
 import java.io.*
 import kotlin.reflect.KProperty
 
-class Preference<T>(val name: String, private val default: T) {
+class Preference<T>(private val name: String, private val default: T) {
 
     companion object {
-        private val file_name = "wan_android_file"
+        private const val FILE_NAME = "android_file"
 
         private val prefs: SharedPreferences by lazy {
-            AppConfig.getApplication().getSharedPreferences(file_name, Context.MODE_PRIVATE)
+            AppConfig.getApplication().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
         }
 
         /**

@@ -3,6 +3,7 @@ package com.example.baselibs.utils
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.example.baselibs.R
 import com.squareup.picasso.Picasso
 
 object ImageLoader {
@@ -19,11 +20,11 @@ object ImageLoader {
 
         placeholderDrawable?.let {
             requestCreator.placeholder(it)
-        } ?: requestCreator.placeholder(com.google.android.material.R.drawable.design_fab_background) //需要设置默认图片
+        } ?: requestCreator.placeholder(R.drawable.image_placeholder)
 
         errorDrawable?.let {
             requestCreator.error(it)
-        } ?: requestCreator.error(com.google.android.material.R.drawable.design_fab_background) //需要设置默认图片
+        } ?: requestCreator.error(R.drawable.image_placeholder)
 
         requestCreator.into(imageView)
     }
